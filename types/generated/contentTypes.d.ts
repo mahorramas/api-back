@@ -432,6 +432,8 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
     publishedAt: Schema.Attribute.DateTime;
     registrationToken: Schema.Attribute.String & Schema.Attribute.Private;
     resetPasswordToken: Schema.Attribute.String & Schema.Attribute.Private;
+    resetPasswordTokenExpiresAt: Schema.Attribute.DateTime &
+      Schema.Attribute.Private;
     roles: Schema.Attribute.Relation<'manyToMany', 'admin::role'> &
       Schema.Attribute.Private;
     updatedAt: Schema.Attribute.DateTime;
@@ -518,6 +520,8 @@ export interface ApiComentarioComentario extends Struct.CollectionTypeSchema {
   attributes: {
     autor: Schema.Attribute.String;
     comentario: Schema.Attribute.Text;
+    compra_verificada: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<false>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -529,12 +533,148 @@ export interface ApiComentarioComentario extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     mueble: Schema.Attribute.Relation<'manyToOne', 'api::mueble.mueble'>;
     publishedAt: Schema.Attribute.DateTime;
-    puntuacion: Schema.Attribute.Integer;
+    puntuacion: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          max: 5;
+          min: 1;
+        },
+        number
+      >;
     titulo: Schema.Attribute.String;
     ubicacion: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    usuario: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+  };
+}
+
+export interface ApiCotizacionCotizacion extends Struct.CollectionTypeSchema {
+  collectionName: 'cotizaciones';
+  info: {
+    displayName: 'Cotizacion';
+    pluralName: 'cotizaciones';
+    singularName: 'cotizacion';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    articulos_json: Schema.Attribute.JSON & Schema.Attribute.Required;
+    codigo_cotizacion: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    codigo_postal: Schema.Attribute.String & Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    cupon_aplicado: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::cotizacion.cotizacion'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    region: Schema.Attribute.Enumeration<['chiapas', 'tabasco', 'tapachula']> &
+      Schema.Attribute.Required;
+    total_estimado: Schema.Attribute.Decimal &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    usuario: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+  };
+}
+
+export interface ApiCuponCupon extends Struct.CollectionTypeSchema {
+  collectionName: 'cupones';
+  info: {
+    displayName: 'Cupon';
+    pluralName: 'cupones';
+    singularName: 'cupon';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    activo: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    codigo: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    compra_minima: Schema.Attribute.Decimal &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<0>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::cupon.cupon'> &
+      Schema.Attribute.Private;
+    porcentaje_descuento: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          max: 100;
+          min: 1;
+        },
+        number
+      >;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiListaDeseoListaDeseo extends Struct.CollectionTypeSchema {
+  collectionName: 'listas_deseo';
+  info: {
+    displayName: 'Lista de deseos';
+    pluralName: 'listas-deseo';
+    singularName: 'lista-deseo';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::lista-deseo.lista-deseo'
+    > &
+      Schema.Attribute.Private;
+    muebles: Schema.Attribute.Relation<'manyToMany', 'api::mueble.mueble'>;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    usuario: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
   };
 }
 
@@ -574,7 +714,7 @@ export interface ApiMuebleMueble extends Struct.CollectionTypeSchema {
     singularName: 'mueble';
   };
   options: {
-    draftAndPublish: false;
+    draftAndPublish: true;
   };
   attributes: {
     activo: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
@@ -613,6 +753,7 @@ export interface ApiMuebleMueble extends Struct.CollectionTypeSchema {
     precio_oferta_tabasco: Schema.Attribute.Decimal;
     precio_oferta_tapachula: Schema.Attribute.Decimal;
     publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'nombre'>;
     tipo_oferta: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -1195,6 +1336,9 @@ declare module '@strapi/strapi' {
       'api::banner-home.banner-home': ApiBannerHomeBannerHome;
       'api::categoria.categoria': ApiCategoriaCategoria;
       'api::comentario.comentario': ApiComentarioComentario;
+      'api::cotizacion.cotizacion': ApiCotizacionCotizacion;
+      'api::cupon.cupon': ApiCuponCupon;
+      'api::lista-deseo.lista-deseo': ApiListaDeseoListaDeseo;
       'api::material.material': ApiMaterialMaterial;
       'api::mueble.mueble': ApiMuebleMueble;
       'api::suscriptor.suscriptor': ApiSuscriptorSuscriptor;
