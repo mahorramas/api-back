@@ -1,5 +1,7 @@
 import type { Core } from '@strapi/strapi';
 
+// Function to generate preview pathname based on content type and document
+
 const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Admin => ({
   auth: {
     secret: env('ADMIN_JWT_SECRET'),

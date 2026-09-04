@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "cotizaciones",
+  "info": {
+    "singularName": "cotizacion",
+    "pluralName": "cotizaciones",
+    "displayName": "Cotizacion"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "codigo_cotizacion": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "articulos_json": {
+      "type": "json",
+      "required": true
+    },
+    "codigo_postal": {
+      "type": "string",
+      "required": true
+    },
+    "region": {
+      "type": "enumeration",
+      "enum": ["chiapas", "tabasco", "tapachula"],
+      "required": true
+    },
+    "total_estimado": {
+      "type": "decimal",
+      "required": true,
+      "min": 0
+    },
+    "usuario": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "cupon_aplicado": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "kind": "collectionType",
+  "collectionName": "cupones",
+  "info": {
+    "singularName": "cupon",
+    "pluralName": "cupones",
+    "displayName": "Cupon"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "codigo": { "type": "string", "required": true, "unique": true },
+    "porcentaje_descuento": { "type": "integer", "required": true, "min": 1, "max": 100 },
+    "activo": { "type": "boolean", "default": true },
+    "compra_minima": { "type": "decimal", "default": 0, "min": 0 }
+  }
+}

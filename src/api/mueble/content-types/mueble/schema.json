@@ -7,7 +7,7 @@
     "displayName": "Mueble"
   },
   "options": {
-    "draftAndPublish": false
+    "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {

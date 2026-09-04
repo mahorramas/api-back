@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "listas_deseo",
+  "info": {
+    "singularName": "lista-deseo",
+    "pluralName": "listas-deseo",
+    "displayName": "Lista de deseos"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "usuario": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "muebles": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::mueble.mueble"
+    }
+  }
+}

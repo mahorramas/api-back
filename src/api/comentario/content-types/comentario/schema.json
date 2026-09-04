@@ -15,7 +15,10 @@
       "type": "string"
     },
     "puntuacion": {
-      "type": "integer"
+      "type": "integer",
+      "required": true,
+      "min": 1,
+      "max": 5
     },
     "titulo": {
       "type": "string"
@@ -25,6 +28,15 @@
     },
     "ubicacion": {
       "type": "string"
+    },
+    "compra_verificada": {
+      "type": "boolean",
+      "default": false
+    },
+    "usuario": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user"
     },
     "mueble": {
       "type": "relation",
