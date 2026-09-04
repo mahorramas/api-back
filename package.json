@@ -18,6 +18,7 @@
     "@strapi/plugin-cloud": "^5.52.3",
     "@strapi/plugin-users-permissions": "^5.52.3",
     "@strapi/provider-email-nodemailer": "^5.52.3",
+    "@strapi/provider-email-sendmail": "^5.52.3",
     "@strapi/provider-upload-cloudinary": "^5.52.3",
     "@strapi/strapi": "^5.52.3",
     "better-sqlite3": "12.8.0",
