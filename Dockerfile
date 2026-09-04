@@ -11,6 +11,15 @@ ARG API_TOKEN_SALT
 ARG ADMIN_JWT_SECRET
 ARG JWT_SECRET
 ARG TRANSFER_TOKEN_SALT
+ARG NEWSLETTER_API_TOKEN
+ARG SMTP_HOST
+ARG SMTP_PORT
+ARG SMTP_USERNAME
+ARG SMTP_PASSWORD
+ARG SMTP_SECURE
+ARG EMAIL_FROM
+ARG EMAIL_REPLY_TO
+ARG PRICE_IMPORT_TOKEN
 
 # Instalar dependencias usando apt-get (Debian) para compatibilidad con libvips/sharp
 RUN apt-get update && apt-get install -y --no-install-recommends \
