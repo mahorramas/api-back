@@ -16,6 +16,14 @@ export default ({ strapi }: { strapi: any }) => {
     routes: [
       ...coreRoutes,
       {
+        method: 'POST',
+        path: '/muebles/importar-precios',
+        handler: 'mueble.importPrices',
+        config: {
+          auth: false,
+        },
+      },
+      {
         method: 'GET',
         path: '/muebles/destacados',
         handler: 'mueble.findFeatured',

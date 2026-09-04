@@ -3,6 +3,7 @@
  */
 
 import { factories } from '@strapi/strapi';
+import { importPrices } from './price-import';
 
 const SLUG_REGEX = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const SLUG_MIN_LENGTH = 3;
@@ -60,5 +61,9 @@ export default factories.createCoreController('api::mueble.mueble', ({ strapi })
     });
 
     return this.transformResponse(entities);
+  },
+
+  async importPrices(ctx: any) {
+    return importPrices(ctx, strapi);
   },
 }));
